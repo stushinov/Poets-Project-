@@ -12,7 +12,7 @@ import java.util.Collection;
 /**
  * Created by Admin on 8.12.2016 г..
  */
-public class WebUserDetails extends User implements UserDetails {
+public class BlogUserDetails extends User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired(){return true;}
@@ -32,7 +32,7 @@ public class WebUserDetails extends User implements UserDetails {
     private User user;
 
 
-    public WebUserDetails(User user, ArrayList<String> roles){
+    public BlogUserDetails(User user, ArrayList<String> roles){
         super(user.getEmail(), user.getFullName(), user.getCity(), user.getPassword());
 
         this.roles = roles;

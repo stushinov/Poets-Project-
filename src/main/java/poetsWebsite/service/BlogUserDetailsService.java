@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 /**
  * Created by Admin on 8.12.2016 г..
  */
-@Service("webUserDetailsService")
-public class WebUserDetailsService implements UserDetailsService {
+@Service("blogUserDetailsService")
+public class BlogUserDetailsService implements UserDetailsService {
+
 
     private final UserRepository userRepository;
 
-    public WebUserDetailsService(UserRepository userRepository) {
+    public BlogUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
