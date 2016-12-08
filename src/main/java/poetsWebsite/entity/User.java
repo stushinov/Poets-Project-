@@ -1,6 +1,8 @@
 package poetsWebsite.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Admin on 8.12.2016 г..
@@ -19,6 +21,7 @@ public class User {
 
     private String password;
 
+    private Set<Role> roles;
 
 
     //Constructor
@@ -27,6 +30,8 @@ public class User {
         this.fullName = fullName;
         this.city = city;
         this.password = password;
+
+        this.roles = new HashSet<>();
     }
 
     public User(){  }
@@ -81,4 +86,17 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles")
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 }
