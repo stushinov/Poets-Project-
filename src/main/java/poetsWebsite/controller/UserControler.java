@@ -64,4 +64,14 @@ public class UserControler {
         return "redirect:/login";
     }
 
+
+    @GetMapping("/login")
+    public String login(Model model){
+
+        model.addAttribute("view", "user/login");
+        return "layout";
+    }
+
+
+
 }
