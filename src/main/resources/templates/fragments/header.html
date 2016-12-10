@@ -1,6 +1,7 @@
 <header  th:fragment="header">
     <div class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
+        <nav class="navbar-inverse">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a th:href="@{/}" class="navbar-brand">POETS</a>
 
@@ -12,6 +13,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
+
+
+
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/profile}">
                             My Profile
@@ -22,12 +26,13 @@
                             Logout
                         </a>
                     </li>
-
+                    <!--
                     <li sec:authorize="isAnonymous()">
                         <a th:href="@{/register}">
                             Hop ON !
                         </a>
                     </li>
+                    -->
                     <li sec:authorize="isAnonymous()">
                         <a th:href="@{/login}">
                             Go In !
@@ -36,5 +41,6 @@
                 </ul>
             </div>
         </div>
+        </nav>
     </div>
 </header>

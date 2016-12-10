@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="jumbotron">
+        <h1>POETS</h1>
+        <p>A website where you can share yourself anonymously or not.</p>
+        <p class="bs-component">
+                <a sec:authorize = "isAnonymous()" th:href="@{/register}" class="btn btn-primary">
+                    REGISTER
+                </a>
+            <a th:href="@{/chat}" class="btn btn-primary">Live Chat</a>
+            <a th:href = "@{/articles}" class="btn btn-primary">Articles</a>
+            <a th:href="@{/about}" class="btn btn-primary">About us</a>
+        </p>
+    </div>
+</div>
