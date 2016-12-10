@@ -7,7 +7,5 @@ import poetsWebsite.entity.User;
  * Created by Admin on 8.12.2016 г..
  */
 public interface UserRepository  extends JpaRepository<User, Integer> {
-
-    //Black magic
     User findByEmail(String email);
 }
