@@ -15,7 +15,7 @@ public class UserBindingModel {
     @NotNull
     private String fullName;
 
-    @Nullable
+    @NotNull
     private String city;
 
     @NotNull

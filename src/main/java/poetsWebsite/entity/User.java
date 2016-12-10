@@ -37,6 +37,10 @@ public class User {
     public User(){  }
 
 
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
