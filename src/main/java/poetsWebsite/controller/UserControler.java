@@ -1,8 +1,10 @@
 package poetsWebsite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -93,6 +95,23 @@ public class UserControler {
         }
 
         return "redirect:/login?logout";
+    }
+
+
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String userDetails(Model model){
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                                                                    .getAuthentication()
+                                                                    .getPrincipal();
+
+        User user = userRepository.findByEmail(principal.getUsername());
+
+        model.addAttribute("user", user);
+        model.addAttribute("view", "user_details/details");
+
+        return "layout";
     }
 
 
