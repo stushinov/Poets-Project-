@@ -1,16 +1,24 @@
 package poetsWebsite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import poetsWebsite.bindingModel.UserBindingModel;
 import poetsWebsite.entity.Role;
 import poetsWebsite.entity.User;
 import poetsWebsite.repository.RoleRepository;
 import poetsWebsite.repository.UserRepository;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Admin on 10.12.2016 г..
@@ -72,6 +80,20 @@ public class UserControler {
         return "layout";
     }
 
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response){
+
+        //It checks if there is logged in user and if there is,
+        // it simply tells the authentication module to logout the user. Then it redirects to the login page again.
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/login?logout";
+    }
 
 
 }
