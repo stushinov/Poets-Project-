@@ -16,4 +16,11 @@ public class HomeController {
 
         return "layout";
     }
+
+    @GetMapping("/about")
+    public String getAbout(Model model){
+
+        model.addAttribute("view", "home/about");
+        return "layout";
+    }
 }
