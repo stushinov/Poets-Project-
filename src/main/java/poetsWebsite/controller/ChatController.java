@@ -21,4 +21,6 @@ public class ChatController {
 
         return "layout";
     }
+
+
 }
