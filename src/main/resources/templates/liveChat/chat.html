@@ -1,20 +1,42 @@
-<div class="row">
+<div class="container">
+    <div class="row">
 
-    <div class="col-lg-6">
+        <div class="col-lg-6">
 
-        <div class="well bs-component">
-            <form class="form-horizontal" th:action="@{/chat}" method="POST">
-                <fieldset>
-                    <legend>Share your thoughts</legend>
-                    <div class="form-group">
+            <div class="well bs-component">
+                <form class="form-horizontal" th:action="@{/chat}" method="POST">
+                    <fieldset>
+                        <legend>Share your thoughts</legend>
+                        <div class="form-group">
 
-                        <div class="col-lg-10">
-                            <textarea class="form-control" placeholder="Write your thoughts here" rows="3" id="content" name="content" ></textarea>
+                            <div class="col-lg-10">
+                                <textarea class="form-control" placeholder="Write your thoughts here" rows="3" id="content" name="content" ></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </fieldset>
-            </form>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 id="type-blockquotes">Blockquotes</h2>
+            </div>
+        </div>
+        <div class="row">
+            <th:block th:each="comment : ${comments}">
+                <div class="col-lg-6">
+                    <div class="bs-component">
+                        <blockquote class="blockquote-reverse">
+                            <p th:text="${comment.content}"></p>
+                            <small><cite title="Source Title" th:text="${comment.author}"></cite></small>
+                        </blockquote>
+                        <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+                </div>
+            </th:block>
         </div>
     </div>
 </div>

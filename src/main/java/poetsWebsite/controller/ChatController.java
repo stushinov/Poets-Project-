@@ -14,6 +14,10 @@ import poetsWebsite.entity.User;
 import poetsWebsite.repository.ChatRepository;
 import poetsWebsite.repository.UserRepository;
 
+import java.beans.Transient;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Admin on 12.12.2016 г..
  */
@@ -29,8 +33,11 @@ public class ChatController {
     @GetMapping("/chat")
     public String chat(Model model){
 
-        model.addAttribute("view", "liveChat/chat");
+        List<Chat> comments = this.chatRepository.findAll();
 
+        Collections.reverse(comments);
+        model.addAttribute("view", "liveChat/chat");
+        model.addAttribute("comments", comments);
         return "layout";
     }
 
@@ -50,7 +57,9 @@ public class ChatController {
         } catch (Exception e){
             author = "Anonymous";
         }
-            chatBindingModel.setAuthor(author);
+
+
+        chatBindingModel.setAuthor(author);
         Chat chatEntity = new Chat(
                 chatBindingModel.getAuthor(),
                 chatBindingModel.getContent()
