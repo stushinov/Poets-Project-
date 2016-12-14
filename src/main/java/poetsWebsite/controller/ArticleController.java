@@ -13,6 +13,8 @@ import poetsWebsite.entity.User;
 import poetsWebsite.repository.ArticleRepository;
 import poetsWebsite.repository.UserRepository;
 
+import java.util.List;
+
 /**
  * Created by Admin on 14.12.2016 г..
  */
@@ -28,9 +30,14 @@ public class ArticleController {
     @GetMapping("/articles")
     public String renderView(Model model){
 
+        List<Article> articles = this.articleRepository.findAll();
         model.addAttribute("view", "articles/Articles");
+        model.addAttribute("articles", articles);
         return "layout";
     }
+
+
+
 
     @GetMapping("/articles/create")
     public String create(Model model){
@@ -38,6 +45,9 @@ public class ArticleController {
         model.addAttribute("view", "articles/create");
         return "layout";
     }
+
+
+
 
     @PostMapping("/articles/create")
     public String createProcess(ArticleBindingModel articleBindingModel){
@@ -53,6 +63,8 @@ public class ArticleController {
                 .getPrincipal();
 
         User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+        //String author = userEntity.getFullName();
 
         Article articleEntity = new Article(
                 articleBindingModel.getTitle(),

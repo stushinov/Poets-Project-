@@ -24,7 +24,7 @@ public class Article {
         this.author = author;
     }
 
-    public Article() {  }
+    public Article () { }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
