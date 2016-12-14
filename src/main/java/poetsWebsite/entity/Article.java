@@ -18,6 +18,14 @@ public class Article {
     private User author;
 
 
+    public Article(String title, String content, User author){
+        this.title = title;
+        this.content = content;
+        this.author = author;
+    }
+
+    public Article() {  }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {

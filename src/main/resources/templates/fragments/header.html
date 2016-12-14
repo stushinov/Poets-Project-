@@ -15,6 +15,11 @@
                 <ul class="nav navbar-nav navbar-right">
 
                     <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/articles/create}">
+                            Create Article
+                        </a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/profile}">
                             My Profile
                         </a>
