@@ -14,7 +14,6 @@ public class ArticleBindingModel {
 
     @NotNull
     private String content;
-    
 
     public String getTitle() {
         return title;
