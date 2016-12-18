@@ -137,6 +137,27 @@ public class ArticleController {
         return "layout";
     }
 
+    @PostMapping("/article/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteProcess(@PathVariable Integer id){
+
+        if(!this.articleRepository.exists(id)){
+            return "redirect:/";
+        }
+
+        Article article = this.articleRepository.findOne(id);
+
+        if(!isUserAuthorOrAdmin(article)){
+            return "redirect:/article/" + id;
+        }
+
+        this.articleRepository.delete(article);
+
+        return "redirect:/articles";
+    }
+
+
+
     private boolean isUserAuthorOrAdmin(Article article){
 
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
