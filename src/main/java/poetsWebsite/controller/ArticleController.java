@@ -1,6 +1,7 @@
 package poetsWebsite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -112,6 +113,26 @@ public class ArticleController {
 
         model.addAttribute("article", article);
         model.addAttribute("view", "articles/details");
+
+        return "layout";
+    }
+
+    @GetMapping("/article/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String delete( Model model, @PathVariable  Integer id){
+
+        if(!this.articleRepository.exists(id)){
+            return "redirect:/";
+        }
+
+        Article article = this.articleRepository.findOne(id);
+
+        if(!isUserAuthorOrAdmin(article)){
+            return "redirect:/article/" + id;
+        }
+
+        model.addAttribute("article", article);
+        model.addAttribute("view", "articles/delete");
 
         return "layout";
     }
