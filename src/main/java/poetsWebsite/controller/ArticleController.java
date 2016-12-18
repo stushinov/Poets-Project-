@@ -37,6 +37,13 @@ public class ArticleController {
 
         Collections.reverse(articles);
 
+        if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User entityUser = this.userRepository.findByEmail(principal.getUsername());
+
+            model.addAttribute("user", entityUser);
+        }
+
         model.addAttribute("view", "articles/Articles");
         model.addAttribute("articles", articles);
         return "layout";

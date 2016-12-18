@@ -27,6 +27,14 @@
                         </div>
                     </footer>
                     </th:block>
+                    <th:block th:if="${article.isLessThan300()} == true">
+                        <footer>
+                            <th:block sec:authorize="isAuthenticated()" th:if="${user.isAdmin() OR user.isAuthor(article)}">
+                                <a class="btn btn-success btn-m" th:href="@{/article/edit/{id}(id = ${article.id})}">Edit</a>
+                                <a class="btn btn-danger btn-m" th:href="@{/article/delete/{id}(id = ${article.id})}">Delete</a>
+                            </th:block>
+                        </footer>
+                    </th:block>
 
                 </article>
             </div>
