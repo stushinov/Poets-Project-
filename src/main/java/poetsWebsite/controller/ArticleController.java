@@ -156,6 +156,25 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
+    @GetMapping("/article/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String edit(@PathVariable Integer id, Model model){
+
+        if(!this.articleRepository.exists(id)){
+            return "redirect:/";
+        }
+
+        Article article = this.articleRepository.findOne(id);
+
+        if(!isUserAuthorOrAdmin(article)){
+            return "redirect:/article/" + id;
+        }
+
+        model.addAttribute("view", "articles/edit");
+        model.addAttribute("article", article);
+
+        return "layout";
+    }
 
 
     private boolean isUserAuthorOrAdmin(Article article){
