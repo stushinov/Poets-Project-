@@ -26,6 +26,24 @@ public class Article {
 
     public Article () { }
 
+    @Transient
+    public String getSummary(){
+
+        if(this.getContent().length() > 300){
+            return  this.getContent().substring(0, 300) + ". . .";
+        }
+
+        return this.getContent();
+    }
+
+    @Transient
+    public boolean isLessThan300(){
+        if(this.getContent().length() < 300){
+            return true;
+        }
+        return false;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {

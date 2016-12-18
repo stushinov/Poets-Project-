@@ -13,6 +13,7 @@ import poetsWebsite.entity.User;
 import poetsWebsite.repository.ArticleRepository;
 import poetsWebsite.repository.UserRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +32,9 @@ public class ArticleController {
     public String renderView(Model model){
 
         List<Article> articles = this.articleRepository.findAll();
+
+        Collections.reverse(articles);
+
         model.addAttribute("view", "articles/Articles");
         model.addAttribute("articles", articles);
         return "layout";
