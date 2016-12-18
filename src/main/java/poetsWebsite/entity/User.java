@@ -2,6 +2,7 @@ package poetsWebsite.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -101,6 +102,24 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+    @Transient
+    public boolean isAdmin(){
+
+        //If the admin role exists in the current user roles. It returns true or false based on the result.
+        return this.getRoles()
+                .stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
+
+
+    @Transient
+    public boolean isAuthor(Article article){
+
+        //Comparing the author id with our user id and again return true or false based on the result
+        return Objects.equals(this.getId(), article.getAuthor().getId());
     }
 
 }

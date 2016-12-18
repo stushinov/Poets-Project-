@@ -108,4 +108,12 @@ public class ArticleController {
 
         return "layout";
     }
+
+    private boolean isUserAuthorOrAdmin(Article article){
+
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+        return userEntity.isAdmin() || userEntity.isAuthor(article);
+    }
 }
