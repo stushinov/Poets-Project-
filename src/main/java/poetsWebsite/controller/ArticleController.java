@@ -16,8 +16,11 @@ import poetsWebsite.entity.User;
 import poetsWebsite.repository.ArticleRepository;
 import poetsWebsite.repository.UserRepository;
 
+import javax.persistence.Transient;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Admin on 14.12.2016 г..
@@ -30,6 +33,7 @@ public class ArticleController {
 
     @Autowired
     UserRepository userRepository;
+
 
     @GetMapping("/articles")
     public String renderView(Model model){

@@ -22,6 +22,8 @@ public class User {
 
     private String password;
 
+    private Set<Article> articles;
+
     private Set<Role> roles;
 
 
@@ -32,6 +34,7 @@ public class User {
         this.city = city;
         this.password = password;
 
+        this.articles = new HashSet<>();
         this.roles = new HashSet<>();
     }
 
@@ -42,6 +45,15 @@ public class User {
         this.roles.add(role);
     }
 
+
+    @OneToMany(mappedBy = "author")
+    public Set<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,6 +116,23 @@ public class User {
         this.roles = roles;
     }
 
+
+
+    @Transient
+    public boolean isPro(){
+        if(articlesCount() == 100){
+            return true;
+        }
+        return false;
+    }
+
+    @Transient
+    public int articlesCount(){
+        if(this.getArticles().size() > 50){
+            return 100;
+        }
+        return this.getArticles().size() *2;
+    }
 
     @Transient
     public boolean isAdmin(){

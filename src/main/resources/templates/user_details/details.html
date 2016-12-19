@@ -2,10 +2,24 @@
     <div class="container body-container">
         <div class="row">
             <div id="main" class="col-sm-9">
-                <div>
+                <div class="jumbotron">
+                    <h1>Profile</h1>
+                    <h3>Email:</h3>
                     <span th:text="${user.email}"></span>
                     <br/>
+                    <h3>Name:</h3>
                     <span th:text="${user.fullName}"></span>
+                    <br/>
+                    <h3>Status:</h3>
+                    <th:block>
+                        <th:block th:if="${user.isPro()} == true">
+                            <span class="label label-success">PRO</span>
+                        </th:block>
+                    <div class="progress progress-striped active">
+                        <th:div class="progress-bar" th:style="'width:' + ${user.articlesCount()}+'%' "></th:div>
+                    </div>
+                    </th:block>
+
                 </div>
             </div>
         </div>
