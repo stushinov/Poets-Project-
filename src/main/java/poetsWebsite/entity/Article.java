@@ -17,6 +17,8 @@ public class Article {
 
     private User author;
 
+    private Category category;
+
 
     public Article(String title, String content, User author){
         this.title = title;
@@ -73,6 +75,15 @@ public class Article {
     }
 
 
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "categoryId")
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     @ManyToOne()
     @JoinColumn(nullable = false, name = "authorId")
