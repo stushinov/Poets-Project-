@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import poetsWebsite.bindingModel.CategoryBindingModel;
+import poetsWebsite.entity.Article;
 import poetsWebsite.entity.Category;
 import poetsWebsite.repository.ArticleRepository;
 import poetsWebsite.repository.CategoryRepository;
@@ -97,6 +98,42 @@ public class CategoryController {
         category.setName(categoryBindingModel.getName());
 
         this.categoryRepository.saveAndFlush(category);
+
+        return "redirect:/admin/categories/";
+    }
+
+
+    //DELETE
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, Model model){
+
+        if(!this.categoryRepository.exists(id)){
+            return "redirect:/admin/categories";
+        }
+
+        Category category = this.categoryRepository.findOne(id);
+
+        model.addAttribute("category", category);
+        model.addAttribute("view", "admin/category/delete");
+
+        return  "layout";
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteProcess(@PathVariable Integer id, CategoryBindingModel categoryBindingModel){
+
+        if(!this.categoryRepository.exists(id)){
+            return "redirect:/admin/categories/";
+        }
+
+        Category category = this.categoryRepository.findOne(id);
+
+        //Deletes the articles corresponding to the current category
+        for(Article article : category.getArticles()){
+            this.articleRepository.delete(article);
+        }
+
+        //Finally  we delete the category
+        this.categoryRepository.delete(category);
 
         return "redirect:/admin/categories/";
     }
