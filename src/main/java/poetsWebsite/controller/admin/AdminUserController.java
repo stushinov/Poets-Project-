@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import poetsWebsite.bindingModel.UserEditBindingModel;
+import poetsWebsite.entity.Article;
 import poetsWebsite.entity.Role;
 import poetsWebsite.entity.User;
 import poetsWebsite.repository.ArticleRepository;
@@ -107,6 +108,43 @@ public class AdminUserController {
 
         return "redirect:/admin/users/";
 
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, Model model){
+
+        if(!this.userRepository.exists(id)){
+            return "redirect:/admin/users/";
+        }
+
+        User user = this.userRepository.findOne(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("view", "admin/user/delete");
+
+        return "layout";
+    }
+
+
+    //POST delete
+    @PostMapping("/delete/{id}")
+    public String deleteProcess(@PathVariable Integer id){
+
+        if(!this.userRepository.exists(id)){
+            return "redirect:/admin/users/";
+        }
+
+        User user = this.userRepository.findOne(id);
+
+
+        //Deletes all articles of the current user
+        for (Article article : user.getArticles()){
+            this.articleRepository.delete(article);
+        }
+
+        this.userRepository.delete(user);
+
+        return "redirect:/admin/users/";
     }
 
 }
