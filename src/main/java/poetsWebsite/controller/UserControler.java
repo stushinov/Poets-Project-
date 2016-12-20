@@ -19,6 +19,7 @@ import poetsWebsite.entity.User;
 import poetsWebsite.repository.RoleRepository;
 import poetsWebsite.repository.UserRepository;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,6 +44,42 @@ public class UserControler {
 
         return "layout";
     }
+
+    @GetMapping("/error/registerError")
+    public String registerError(Model model){
+
+        model.addAttribute("view", "error/registerError");
+        return "layout";
+    }
+
+    @PostMapping("/error/registerError")
+    public String registerErrorProcess(UserBindingModel userBindingModel){
+
+        if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
+            return "redirect:/register";
+        }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        User user = new User(
+                userBindingModel.getEmail(),
+                userBindingModel.getFullName(),
+                userBindingModel.getCity(),
+                bCryptPasswordEncoder.encode(userBindingModel.getPassword())
+        );
+
+        Role userRole = this.roleRepository.findByName("ROLE_USER");
+
+        user.addRole(userRole);
+
+        try {
+            this.userRepository.saveAndFlush(user);
+        }catch (Exception exception){
+            return "redirect:/error/registerError";
+        }
+        return "redirect:/login";
+    }
+
 
     //Register Post
     @PostMapping("/register")
@@ -69,7 +106,7 @@ public class UserControler {
         try {
             this.userRepository.saveAndFlush(user);
         }catch (Exception exception){
-            return "redirect:/register";
+            return "redirect:/error/registerError";
         }
         return "redirect:/login";
     }
@@ -113,6 +150,5 @@ public class UserControler {
 
         return "layout";
     }
-
 
 }
