@@ -58,6 +58,7 @@ public class ArticleController {
 
 
     @GetMapping("/articles/create")
+    @PreAuthorize("isAuthenticated()")
     public String create(Model model){
 
         model.addAttribute("view", "articles/create");
@@ -68,6 +69,7 @@ public class ArticleController {
 
 
     @PostMapping("/articles/create")
+    @PreAuthorize("isAuthenticated()")
     public String createProcess(ArticleBindingModel articleBindingModel){
 
         //I added this base case because sometimes when smb leaves an empty text in the forms it takes them as "" and not NULL.
