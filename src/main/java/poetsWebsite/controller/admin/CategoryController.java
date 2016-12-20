@@ -3,8 +3,11 @@ package poetsWebsite.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import poetsWebsite.bindingModel.CategoryBindingModel;
 import poetsWebsite.entity.Category;
 import poetsWebsite.repository.ArticleRepository;
 import poetsWebsite.repository.CategoryRepository;
@@ -38,5 +41,26 @@ public class CategoryController {
         model.addAttribute("view", "admin/category/list");
         model.addAttribute("categories", categories);
         return "layout";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+        model.addAttribute("view", "admin/category/create");
+        return "layout";
+    }
+
+    @PostMapping("/create")
+    public String createProcess(CategoryBindingModel categoryBindingModel){
+
+        //First, we need to check if the field is empty and if it is, we should redirect the user
+        if(StringUtils.isEmpty(categoryBindingModel.getName())){
+            return "redirect:/admin/categories/create";
+        }
+
+        Category category = new Category(categoryBindingModel.getName());
+
+        this.categoryRepository.saveAndFlush(category);
+
+        return "redirect:/admin/categories/";
     }
 }
