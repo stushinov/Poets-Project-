@@ -3,6 +3,7 @@ package poetsWebsite.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Created by Admin on 10.12.2016 г..
@@ -21,6 +22,13 @@ public class HomeController {
     public String getAbout(Model model){
 
         model.addAttribute("view", "home/about");
+        return "layout";
+    }
+
+    @RequestMapping("/error/403")
+    public String accessDenied(Model model){
+
+        model.addAttribute("view", "error/403");
         return "layout";
     }
 }
