@@ -12,6 +12,9 @@
                     <br/>
                     <h3>Status:</h3>
                     <th:block>
+                        <th:block th:if="${user.isAdmin()} == true">
+                            <span class="label label-success">ADMIN</span>
+                        </th:block>
                         <th:block th:if="${user.isPro()} == true">
                             <span class="label label-success">PRO</span>
                         </th:block>
