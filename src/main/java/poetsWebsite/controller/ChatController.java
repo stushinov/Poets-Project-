@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import poetsWebsite.bindingModel.ChatBindingModel;
 import poetsWebsite.entity.Chat;
 import poetsWebsite.entity.User;
+import poetsWebsite.repository.CategoryRepository;
 import poetsWebsite.repository.ChatRepository;
 import poetsWebsite.repository.UserRepository;
 
@@ -25,10 +26,13 @@ import java.util.List;
 public class ChatController {
 
     @Autowired
-    ChatRepository chatRepository;
+    private ChatRepository chatRepository;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/chat")
     public String chat(Model model){
@@ -36,6 +40,7 @@ public class ChatController {
         List<Chat> comments = this.chatRepository.findAll();
 
         Collections.reverse(comments);
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("view", "liveChat/chat");
         model.addAttribute("comments", comments);
         return "layout";

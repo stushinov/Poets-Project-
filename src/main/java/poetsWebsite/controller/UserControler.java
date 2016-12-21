@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import poetsWebsite.bindingModel.UserBindingModel;
 import poetsWebsite.entity.Role;
 import poetsWebsite.entity.User;
+import poetsWebsite.repository.CategoryRepository;
 import poetsWebsite.repository.RoleRepository;
 import poetsWebsite.repository.UserRepository;
 
@@ -30,16 +31,20 @@ import javax.servlet.http.HttpServletResponse;
 public class UserControler {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
 
     //Register get
     @GetMapping("/register")
     public String register(Model model){
 
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("view", "user/register");
 
         return "layout";
@@ -48,6 +53,7 @@ public class UserControler {
     @GetMapping("/error/registerError")
     public String registerError(Model model){
 
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("view", "error/registerError");
         return "layout";
     }
@@ -145,6 +151,7 @@ public class UserControler {
 
         User user = userRepository.findByEmail(principal.getUsername());
 
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("user", user);
         model.addAttribute("view", "user_details/details");
 

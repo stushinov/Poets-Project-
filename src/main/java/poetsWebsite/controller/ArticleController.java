@@ -31,13 +31,13 @@ import java.util.Set;
 public class ArticleController {
 
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
 
     @GetMapping("/articles")
@@ -54,6 +54,7 @@ public class ArticleController {
             model.addAttribute("user", entityUser);
         }
 
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("view", "articles/Articles");
         model.addAttribute("articles", articles);
         return "layout";
