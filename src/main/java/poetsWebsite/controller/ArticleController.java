@@ -172,6 +172,9 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
+
+
+    
     @GetMapping("/article/edit/{id}")
     @PreAuthorize("isAuthenticated()")
     public String edit(@PathVariable Integer id, Model model){
@@ -186,8 +189,11 @@ public class ArticleController {
             return "redirect:/article/" + id;
         }
 
-        model.addAttribute("view", "articles/edit");
+        List<Category> categories = this.categoryRepository.findAll();
+
         model.addAttribute("article", article);
+        model.addAttribute("categories", categories);
+        model.addAttribute("view", "articles/edit");
 
         return "layout";
     }
@@ -207,6 +213,10 @@ public class ArticleController {
         if(!isUserAuthorOrAdmin(article)){
             return "redirect:/article/" + id;
         }
+
+        Category category = this.categoryRepository.findOne(articleBindingModel.getCategoryId());
+
+        article.setCategory(category);
 
         //Set the current article content to the input form in 'edit'
         article.setContent(articleBindingModel.getContent());
