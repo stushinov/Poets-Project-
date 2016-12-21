@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import poetsWebsite.bindingModel.ArticleBindingModel;
 import poetsWebsite.entity.Article;
+import poetsWebsite.entity.Category;
 import poetsWebsite.entity.User;
 import poetsWebsite.repository.ArticleRepository;
+import poetsWebsite.repository.CategoryRepository;
 import poetsWebsite.repository.UserRepository;
 
 import javax.persistence.Transient;
@@ -33,6 +35,9 @@ public class ArticleController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
 
     @GetMapping("/articles")
@@ -61,6 +66,9 @@ public class ArticleController {
     @PreAuthorize("isAuthenticated()")
     public String create(Model model){
 
+        List<Category> categories = this.categoryRepository.findAll();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("view", "articles/create");
         return "layout";
     }
@@ -84,12 +92,13 @@ public class ArticleController {
 
         User userEntity = this.userRepository.findByEmail(user.getUsername());
 
-        //String author = userEntity.getFullName();
+        Category category = this.categoryRepository.findOne(articleBindingModel.getCategoryId());
 
         Article articleEntity = new Article(
                 articleBindingModel.getTitle(),
                 articleBindingModel.getContent(),
-                userEntity
+                userEntity,
+                category
         );
 
         this.articleRepository.saveAndFlush(articleEntity);
